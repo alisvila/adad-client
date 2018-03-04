@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import firebase from 'firebase';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { Header } from './common';
 import LoginForm from './LoginForm'
 import Home from './page1'
+import reducers from './reducers';
+import LibraryList from './LibraryList'
 
 class App extends Component {
     componentWillMount() {
@@ -18,9 +22,11 @@ class App extends Component {
 	}
   render() {
     return (
-      <View>
-        <LoginForm />
-      </View>
+        <Provider store={createStore(reducers)}>
+            <View>
+                <LibraryList />
+            </View>
+        </Provider>
     );
   }
 }

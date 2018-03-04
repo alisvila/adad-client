@@ -21,7 +21,6 @@ const styles = {
     button: {
         flex: 1,
         alignSelf: 'stretch',
-        color: '#ff9900',
         borderColor: '#ff9900',
         borderRadius: 5,
         borderWidth: 1,

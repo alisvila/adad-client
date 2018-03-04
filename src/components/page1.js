@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, Button, StyleSheet, Image, Text } from 'react-native';
+import { View, Button, StyleSheet, Image, Text, Animated } from 'react-native';
 import { Card, CardSection, Submit, Input } from './common';
 import Header from './Header'
-import { Spinner } from './common'
 
 class Home extends Component {
     render () {
@@ -23,7 +22,6 @@ class Home extends Component {
                     <Text>some text here</Text>
                 </Card>
             </View>
-
         )
     }
 

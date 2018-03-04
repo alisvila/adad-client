@@ -5,6 +5,7 @@ import { Card, CardSection, Submit, Input } from './common';
 class LoginForm extends Component {
     constructor(props) {
         super(props);
+        this.state = { loading: false }
 
         this.keyboardHeight = new Animated.Value(0);
         this.imageHeight = new Animated.Value(134);
@@ -21,7 +22,7 @@ class LoginForm extends Component {
     }
 
     _keyboardDidShow = (event) => {
-        console.log(event)
+        console.log(event.endCoordinates.height)
         Animated.parallel([
           Animated.timing(this.keyboardHeight, {
               duration: event.duration,
@@ -29,7 +30,7 @@ class LoginForm extends Component {
           }),
             Animated.timing(this.imageHeight, {
                 duration: event.duration,
-                toValue: 50,
+                toValue: 20,
             }),
         ]).start();
     };
@@ -41,12 +42,14 @@ class LoginForm extends Component {
               toValue: 0,
           }),
             Animated.timing(this.imageHeight, {
-                toValue: 150,
+                toValue: 160,
             }),
         ]).start();
     };
 
-    onpress() {
+    onPressed () {
+        console.log(this.state)
+        this.setState({loading: true});
         console.log('here');
         fetch('http://api.adad.ir/auth/',{
             method:'POST',
@@ -63,9 +66,23 @@ class LoginForm extends Component {
         .catch(error => { console.log(error) });
     }
 
+    renderButtom () {
+        console.log(this.state.loading);
+        if (this.state.loading) {
+            console.log("return spinner");
+            return <Spinner size="small" />
+        }
+        else {
+            console.log("return not  spinner");
+            return (
+                <Submit buttonText='Login' onPress={ this.onPressed } />
+            )
+        }
+    }
+
     render() {
         return (
-            <Animated.View style={{ paddingBottom: this.keyboardHeight }} >
+            <Animated.View style={[styles.wraper ,{ paddingBottom: this.keyboardHeight }]} >
                 <Animated.Image style={[ styles.logo, { height: this.imageHeight} ]} source={{ uri: 'https://cdn.adad.ir/images/logo.png' }} />
                 <Card>
                     <CardSection>
@@ -75,7 +92,7 @@ class LoginForm extends Component {
                       <Input label="password"/>
                     </CardSection>
                     <CardSection>
-                      <Submit buttonText='Login' onPress={ this.onpress } />
+                        { this.renderButtom() }
                     </CardSection>
                 </Card>
             </Animated.View>
@@ -84,13 +101,14 @@ class LoginForm extends Component {
 }
 
 const styles = StyleSheet.create({
+    wraper: {
+        paddingBottom: 2000,
+    },
     logo: {
-        height: 150,
         resizeMode: 'contain',
         alignItems: 'center',
         justifyContent: 'center',
         margin: 20,
-        marginBottom: 150,
         marginTop: 50
     },
     button: {
